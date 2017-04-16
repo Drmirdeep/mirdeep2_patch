@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+## Downloads mirbase files from www.mirbase.org, version given as argv[0]
+
 use strict;
 use warnings;
 
