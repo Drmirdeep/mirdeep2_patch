@@ -5,7 +5,7 @@ use warnings;
 
 print STDERR "\n
 ###############################################################################################
-# Last update: Apr 10, 2017
+# Last update: Apr 10, 2017 
 # This is the miRDeep2 installer
 # It is tested under a bash and zsh shell
 # It will try to download all necessary third-party tools and install them. 
