@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 ## Downloads mirbase files from www.mirbase.org, version given as argv[0]
+## when argv[1] is given then gffs are also downloaded
 
 use strict;
 use warnings;
