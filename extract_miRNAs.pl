@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+## support for gzip files 
+
 use strict;
 
 my $id;
