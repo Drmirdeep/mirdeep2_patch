@@ -17,7 +17,7 @@ check_install();
 
 my $version="2.0.0.x";
 
-print "
+print " 
 
 #####################################
 #                                   #
