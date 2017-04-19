@@ -553,7 +553,7 @@ If you have precursors with less than $minpreslen please use option -p <int> to 
 	        if($options{'d'}){$dopt="-d";}
 			if($options{'P'}){$Popt="-P";}
 
-            my $quant = "quantifier.pl -p $file_precursors -m $file_mature_ref_this_species  -r $file_reads $file_star $species -y $time -k $dopt $Popt";
+            my $quant = "quantifier.pl -T $threads -p $file_precursors -m $file_mature_ref_this_species  -r $file_reads $file_star $species -y $time -k $dopt $Popt";
             print STDERR $quant,"\n";
             `$quant`;
             $options{'q'} = "expression_analyses/expression_analyses_$time/miRBase.mrd";
