@@ -3,6 +3,7 @@ updated mirdeep2 scripts to improve performance - these scripts will go into the
 
 please consider the files here as being still in a testing phase
 
+
 To pull all files from this repository do 
 
 git clone https://github.com/Drmirdeep/mirdeep2_patch.git
@@ -10,6 +11,7 @@ git clone https://github.com/Drmirdeep/mirdeep2_patch.git
 The release packages of miRDeep2 are availabe at
 
 https://github.com/rajewsky-lab/mirdeep2 and https://www.mdc-berlin.de/8551903/en/
+
 
 Please cite
 
