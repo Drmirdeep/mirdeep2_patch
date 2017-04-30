@@ -667,17 +667,19 @@ while(<IN>){
         #open MMU,">>recovered_miRNA";
         if($knownones{"$1$2"} and $reads){
         #    print MMU "$1\n";
-            if(not $hash{$id}{"known"}){
+		#if(not $hash{$id}{"known"}){
+            if(1){
 				#die "$id $1$2";
-                $hash{$id}{"known"} = "$1$2";
+				# $hash{$id}{"known"} = "$1$2";
 		
-		## now check if mature of miRDeep is same as mirbase or not
+		## now check if mature of miRDeep2 is same as mirbase or not
 		if(index($knownones{"$1$2"},substr($hash{$id}{'mat_seq'},4,12))>=0){
 		    $hash{$id}{'mirbase'} = 'TRUE';
+            $hash{$id}{"known"} = "$1$2";
 			$hash{$id}{'mirbase-out'} = "$1$2";
 			## if star sequence mirbase mature then output star
 		}elsif(index($knownones{"$1$2"},substr($hash{$id}{'star_seq'},4,12))>=0){
-		    $hash{$id}{'mirbase'} = 'STAR';
+		    $hash{$id}{'mirbase'} = 'STAR' if($hash{$id}{'mirbase'} ne 'TRUE');
 			$hash{$id}{'mirbase-out'} = "$1$2";
 
 			## if mature matches mirbase star then output star sequence, else output NA and precursor would be a novel prediction
