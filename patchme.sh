@@ -6,7 +6,15 @@ echo export PATH=$CWD:\$PATH >> ~/.bash_profile
 
 chmod u+x *.pl
 
-if [[ -f "$CWD/miRDeep2_patch.pl" ]];then 
+if [[ -f "$CWD/miRDeep2_patch.pl" ]];then
+	
+	present=$(miRDeep2.pl 2>&1 |grep threads)
+        if [[ -z $present ]];then
+                echo miRDeep2 seems not to be in your global PATH variable
+                echo please use the install.pl script first or add it manually to your PATH variable before applying the patch
+                exit
+        fi
+
 	a=$(which miRDeep2.pl)
 	mv $a $a.orig
 	ln -s $CWD/miRDeep2_patch.pl $a
