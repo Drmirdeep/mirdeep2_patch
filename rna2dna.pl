@@ -33,7 +33,7 @@ sub parse_fasta{
 
 	}else{
 		
-	    $_ =~ tr/uU/Tt/;
+	    $_ =~ tr/uU/TT/;
 	    print uc($_);
 	}
     }
