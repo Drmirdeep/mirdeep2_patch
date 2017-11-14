@@ -5,7 +5,7 @@ use warnings;
 
 print STDERR "\n
 ###############################################################################################
-# Last update: Apr 10, 2017 
+# Last update: Apr 10, 2017
 # This is the miRDeep2 installer
 # It is tested under a bash and zsh shell
 # It will try to download all necessary third-party tools and install them. 
@@ -79,7 +79,7 @@ $progs{zlib}=0;
 $progs{pdf}=0;
 $progs{ttf}=0;
 
-my $wget=`which wget`;
+my $wget=`wget 2>&1`;
 my $curl=`which curl`;
 
 my $dtool='';
@@ -273,8 +273,12 @@ if($ret == 0){
 				if($err){
 					die "\nError:\n\t$bowtie could not be downloaded\n\n\n";
 				}
-			}elsif(check("https://sourceforge.net/projects/bowtie-bio/files/bowtie/$bowtie_version/$bowtie")){
-				$err=system("$dtool https://sourceforge.net/projects/bowtie-bio/files/bowtie/$bowtie_version/$bowtie $dopt");
+			}elsif(check("https://sourceforge.net/projects/bowtie-bio/files/bowtie/$bowtie_version/$bowtie",$bowtie)){
+				if(not -f $bowtie){
+					$err=system("$dtool https://sourceforge.net/projects/bowtie-bio/files/bowtie/$bowtie_version/$bowtie $dopt");
+				}else{
+					$err=0;
+				}
 				if($err){
 					die "\nError:\n\t$bowtie could not be downloaded\n\n\n";
 				}
@@ -298,7 +302,7 @@ if($ret == 0){
 
 	chdir "$install_bin_dir";
 
-	buildgood("$dir/essentials/bowtie-$bv/bowtie");
+	buildgood("$dir/essentials/bowtie-$bv/bowtie","bowtie");
 
 	if(not -f "bowtie"){
 		system("ln -s $dir/essentials/bowtie-$bv/bowtie* .");
@@ -317,8 +321,14 @@ if($ret == 0){
 		$dfile="ViennaRNA-1.8.4.tar.gz";
 		if(not -f $dfile){
 			print STDERR "Downloading Vienna package now\n\n";
-			if(check("http://www.tbi.univie.ac.at/RNA/packages/source/ViennaRNA-1.8.4.tar.gz")){
-				$err=system("$dtool http://www.tbi.univie.ac.at/RNA/packages/source/ViennaRNA-1.8.4.tar.gz $dopt");
+			my $ptc="https://www.tbi.univie.ac.at/RNA/download/sourcecode/1_8_x/ViennaRNA-1.8.4.tar.gz";
+			# if(check("http://www.tbi.univie.ac.at/RNA/packages/source/ViennaRNA-1.8.4.tar.gz")){ # address changed 
+			if(check($ptc,$dfile)){
+				if(not -f $dfile){
+					$err=system("$dtool $ptc $dopt");
+				}else{
+					$err=0;
+				}
 				if($err){
 					die "Download of Vienna package not successful\n\n";
 				}
@@ -361,7 +371,7 @@ if($ret == 0){
 		`make 1>> ../install.log 2>> ../install_error.log`;
 		`make install 1>> ../install.log 2>> ../install_error.log`;
 
-		buildgood("$dir/essentials/ViennaRNA-1.8.4/install_dir/bin/RNAfold");
+		buildgood("$dir/essentials/ViennaRNA-1.8.4/install_dir/bin/RNAfold","RNAfold");
 
 		chdir("..");
 		chdir "$install_bin_dir";
@@ -488,7 +498,7 @@ if($ret == 0){
 		`mv Makefile_new Makefile`;
 
 		`make 1>>../install.log 2>>../install_error.log`;
-		buildgood("$dir/essentials/randfold-2.0/randfold");
+		buildgood("$dir/essentials/randfold-2.0/randfold","randfold");
 		chdir("..");
 	}
 
@@ -743,7 +753,7 @@ sub checkBIN{
 
 
 sub check{
-	my ($url) = @_;
+	my ($url,$file) = @_;
 	my $out='';
 	if($dtool =~ /wget/){
 		$out=`wget --spider -v $url 2>&1`;
@@ -752,11 +762,22 @@ sub check{
 		if($out =~ /NOT/i){
 			$out='broken';
 		}
+
+		if($url =~ /https/){
+			`curl $url > $file`;
+			if(-s "$file" < 1000){
+				$out='broken';
+				`rm -f $file`;
+			}else{
+				$out=0;
+			}
+		}
+
 	}else{
 		die "No download tool found\nplease install wget or curl\n";
 	}
 
-	if($out =~ /broken/){
+	if($out =~ /broken/i){
 		return 0;
 	}else{
 		return 1;
@@ -767,6 +788,7 @@ sub check{
 sub buildgood{
 	if(-f $_[0]){
 		print STDERR "Building of $_[0] successful\n";
+		if($_[1]){ $progs{$_[1]}=1;}
 	}else{
 		die "Building of $_[0] not successful\nPlease have a look at the install.log and install_error.log in 
 		the essentials directory
