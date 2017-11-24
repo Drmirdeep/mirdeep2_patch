@@ -28,7 +28,14 @@ if(not -d "$ENV{'HOME'}/mirbase/"){mkdir "$ENV{'HOME'}/mirbase";}
 chdir "$ENV{'HOME'}/mirbase/";
 
 $a=`wget -S --spider ftp://mirbase.org/pub/mirbase/$version/ 2>&1`;
-if($a !~ /^550/){
+my @A=split("\n",$a);
+my $nf=0;
+foreach my $e(@A){
+    if($e =~ /^550/ and $e =~ /No/i){
+        $nf=1;
+    }
+}
+if(not $nf){
 	print STDERR "mirbase version $version exists\nDownloading files now to $ENV{'HOME'}/mirbase/$version/\n";
 	if(not -d $version){mkdir $version;}
 	chdir $version;
