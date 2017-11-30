@@ -8,7 +8,7 @@ chmod u+x *.pl
 
 if [[ -f "$CWD/miRDeep2_patch.pl" ]];then
 	
-	present=$(miRDeep2.pl 2>&1 |grep threads)
+	present=$(miRDeep2.pl 2>&1 |grep change)
         if [[ -z $present ]];then
                 echo miRDeep2 seems not to be in your global PATH variable
                 echo please use the install.pl script first or add it manually to your PATH variable before applying the patch
