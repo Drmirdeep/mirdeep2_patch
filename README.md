@@ -1,7 +1,7 @@
 # mirdeep2_patch
 updated mirdeep2 scripts to improve performance
 
-please consider the files here as being still in a testing phase
+please consider the files here as being still in a testing phase/likely outdated by now since the files were made in 2017.
 
 
 To pull all files from this repository do 
