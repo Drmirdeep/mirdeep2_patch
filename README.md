@@ -12,7 +12,7 @@ The release packages of miRDeep2 are availabe at
 
 https://github.com/rajewsky-lab/mirdeep2
 
-A recent miRDeep2 tutorial is available here
+A miRDeep2 tutorial can be found here
 
 https://drmirdeep.github.io/mirdeep2_tutorial.html
 
